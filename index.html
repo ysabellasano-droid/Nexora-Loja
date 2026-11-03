@@ -1,0 +1,220 @@
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NEXORA — Loja</title>
+  <style>
+    :root {
+      --bg:#171a20; --panel:#222730; --panel2:#292f39; --text:#f4f6f8;
+      --muted:#aab2bf; --blue:#4c8dff; --blue2:#2867d9; --line:#383f4a;
+      --red:#ff667a; --green:#63d6a0;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,sans-serif}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    .hidden{display:none!important}
+    .login{min-height:100vh;display:grid;place-items:center;padding:20px;
+      background:radial-gradient(ellipse at top right,#234b76 0,transparent 42%),#171a20}
+    .login-box{width:min(420px,100%);padding:38px;background:#222730;border:1px solid #3c4654;
+      border-radius:20px;box-shadow:0 22px 70px #0008}
+    .logo{font-size:29px;font-weight:900;letter-spacing:5px;color:#82b4ff}
+    .login-box h1{margin:28px 0 8px;font-size:25px}
+    .muted{color:var(--muted)}
+    label{display:block;margin:18px 0 7px;color:#d7dce4}
+    input{width:100%;padding:13px;border:1px solid #46505f;border-radius:9px;
+      background:#171a20;color:white;outline:none}
+    input:focus{border-color:var(--blue)}
+    .primary,.secondary,.danger{border:0;border-radius:9px;padding:12px 16px;color:white}
+    .primary{background:var(--blue2)} .primary:hover{background:var(--blue)}
+    .secondary{background:#353d49}.danger{background:#8c3341}
+    .login-box .primary{width:100%;margin-top:22px}
+    .hint{font-size:12px;line-height:1.6;margin-top:17px;color:var(--muted)}
+    header{position:sticky;top:0;z-index:3;background:#1c2027ed;backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--line);padding:14px 4%;display:flex;align-items:center;gap:22px}
+    header .logo{font-size:22px}
+    .search{max-width:520px;flex:1}
+    .user{margin-left:auto;color:var(--muted);white-space:nowrap}
+    .layout{display:grid;grid-template-columns:220px 1fr;max-width:1500px;margin:auto;min-height:calc(100vh - 66px)}
+    aside{padding:22px 14px;border-right:1px solid var(--line)}
+    .nav{display:grid;gap:7px}
+    .nav button{text-align:left;padding:12px;border:0;border-radius:8px;background:transparent;color:#d4dae3}
+    .nav button:hover,.nav button.active{background:#2d3541;color:#fff}
+    main{padding:25px 3.5%;min-width:0}
+    .hero{padding:27px;border-radius:16px;background:linear-gradient(110deg,#183b68,#273142 72%);
+      display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:20px}
+    .hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 9px}
+    .hero p{color:#d2deee;margin:0}
+    .hero .badge{font-size:13px;background:#ffffff1d;padding:10px 13px;border-radius:20px}
+    .ticker{overflow:hidden;background:#282f39;color:#b8d2ff;padding:12px 0;border-radius:9px;margin:14px 0 24px}
+    .ticker span{display:inline-block;white-space:nowrap;animation:slide 23s linear infinite}
+    @keyframes slide{to{transform:translateX(-50%)}}
+    .section-title{display:flex;justify-content:space-between;align-items:center;margin:23px 0 14px}
+    .section-title h2{font-size:19px;margin:0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:15px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:13px;overflow:hidden;position:relative}
+    .card img{width:100%;height:165px;object-fit:cover;background:#343b46}
+    .card-body{padding:13px}
+    .card h3{font-size:14px;min-height:34px;margin:0 0 9px}
+    .price{font-weight:800;font-size:17px}
+    .old{color:#929aa7;text-decoration:line-through;font-size:12px;margin-left:7px}
+    .tag{font-size:11px;color:#ffd27b;margin:7px 0}
+    .card-actions{display:flex;gap:8px;margin-top:12px}
+    .card-actions button{flex:1;font-size:12px;padding:9px 7px}
+    .heart{position:absolute;top:9px;right:9px;width:34px;height:34px;border:0;border-radius:50%;
+      background:#151922d9;color:#fff;font-size:19px}
+    .heart.on{color:#ff7890}
+    .content-box{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:20px}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+    .row:last-child{border:0}
+    .empty{padding:35px;text-align:center;color:var(--muted)}
+    .toast{position:fixed;bottom:20px;right:20px;background:#29394d;padding:13px 18px;
+      border:1px solid #4b76ae;border-radius:10px;z-index:5}
+    .admin-note{font-size:12px;color:#f5cd7c;line-height:1.6}
+    @media(max-width:750px){
+      header{flex-wrap:wrap;gap:12px}.search{order:3;flex-basis:100%;max-width:none}
+      .layout{grid-template-columns:1fr}aside{border:0;border-bottom:1px solid var(--line);padding:8px 4%;overflow:auto}
+      .nav{display:flex;width:max-content}.nav button{white-space:nowrap;padding:10px}
+      main{padding:20px 4%}.user{font-size:12px}
+    }
+  </style>
+</head>
+<body>
+  <section id="login" class="login">
+    <form class="login-box" id="loginForm">
+      <div class="logo">NEXORA</div>
+      <h1>Boas compras começam aqui</h1>
+      <div class="muted">Entre na sua conta para continuar.</div>
+      <label for="email">E-mail</label>
+      <input id="email" type="email" placeholder="voce@email.com" required>
+      <label for="password">Senha</label>
+      <input id="password" type="password" placeholder="Sua senha" required>
+      <button class="primary">Entrar na loja</button>
+      <div class="hint">Demonstração da loja. A área administrativa é simulada e não deve ser usada para proteger dados reais.</div>
+    </form>
+  </section>
+
+  <section id="app" class="hidden">
+    <header>
+      <div class="logo">NEXORA</div>
+      <input class="search" id="search" placeholder="Buscar produtos...">
+      <div class="user"><span id="who"></span> · <button class="secondary" id="logout">Sair</button></div>
+    </header>
+    <div class="layout">
+      <aside><nav class="nav" id="nav"></nav></aside>
+      <main id="main"></main>
+    </div>
+  </section>
+  <div id="toast" class="toast hidden"></div>
+
+<script>
+const products = [
+ ["Fone Bluetooth Pulse","Áudio",149.90,199.90,"photo-1505740420928-5e560c06d30e"],
+ ["Relógio Smart Fit","Acessórios",229.90,299.90,"photo-1523275335684-37898b6baf30"],
+ ["Câmera instantânea","Eletrônicos",489.90,549.90,"photo-1516035069371-29a1b244cc32"],
+ ["Mochila urbana","Moda",179.90,229.90,"photo-1553062407-98eeb64c6a62"],
+ ["Tênis esportivo","Moda",319.90,399.90,"photo-1542291026-7eec264c27ff"],
+ ["Óculos de sol","Acessórios",119.90,159.90,"photo-1511499767150-a48a237f0083"],
+ ["Teclado mecânico","Eletrônicos",289.90,349.90,"photo-1587829741301-dc798b83add3"],
+ ["Mouse sem fio","Eletrônicos",89.90,119.90,"photo-1527814050087-3793815479db"],
+ ["Cafeteira compacta","Casa",249.90,319.90,"photo-1495474472287-4d71bcdd2085"],
+ ["Garrafa térmica","Casa",69.90,89.90,"photo-1602143407151-7111542de6e8"],
+ ["Luminária de mesa","Casa",139.90,189.90,"photo-1507473885765-e6ed057f782c"],
+ ["Bolsa transversal","Moda",199.90,259.90,"photo-1548036328-c9fa89d128fa"],
+ ["Carteira de couro","Acessórios",99.90,139.90,"photo-1627123424574-724758594e93"],
+ ["Caixa de som portátil","Áudio",199.90,269.90,"photo-1608043152269-423dbba4e7e1"],
+ ["Headphone Studio","Áudio",399.90,499.90,"photo-1505740420928-5e560c06d30e"],
+ ["Tablet 10 polegadas","Eletrônicos",1299.90,1499.90,"photo-1544244015-0df4b3ffc6b0"],
+ ["Capa para celular","Acessórios",49.90,69.90,"photo-1603313011108-2a2a0f7f3c93"],
+ ["Carregador rápido","Eletrônicos",79.90,99.90,"photo-1583863788434-e58a36330cf0"],
+ ["Tênis casual","Moda",279.90,339.90,"photo-1542291026-7eec264c27ff"],
+ ["Jaqueta leve","Moda",349.90,429.90,"photo-1551028719-00167b16eac5"],
+ ["Camiseta básica","Moda",59.90,79.90,"photo-1521572163474-6864f9cf17ab"],
+ ["Kit de skincare","Beleza",159.90,199.90,"photo-1608248543803-ba4f8c70ae0b"],
+ ["Perfume amadeirado","Beleza",399.90,459.90,"photo-1541643600914-78b084683601"],
+ ["Secador profissional","Beleza",279.90,349.90,"photo-1522335789203-aabd1fc54bc9"],
+ ["Panela de ferro","Casa",229.90,299.90,"photo-1556911220-bff31c812dba"],
+ ["Jogo de lençóis","Casa",189.90,239.90,"photo-1631049307264-da0ec9d70304"],
+ ["Vaso decorativo","Casa",89.90,119.90,"photo-1578500494198-246f612d3b3d"],
+ ["Cadeira ergonômica","Casa",1099.90,1299.90,"photo-1505843490701-5be5d0a7d3b9"],
+ ["Monitor 27 polegadas","Eletrônicos",1399.90,1599.90,"photo-1527443224154-c4a3942d3acf"],
+ ["Webcam Full HD","Eletrônicos",249.90,319.90,"photo-1587826080692-f439cd0b70da"],
+ ["Microfone USB","Áudio",329.90,399.90,"photo-1590602847861-f357a9332bbc"],
+ ["Violão acústico","Música",799.90,949.90,"photo-1510915361894-db8b60106cb1"],
+ ["Livro de ficção","Livros",49.90,69.90,"photo-1544947950-fa07a98d237f"],
+ ["Caderno premium","Papelaria",39.90,54.90,"photo-1531346878377-a5be20888e57"],
+ ["Mala de viagem","Acessórios",549.90,649.90,"photo-1565026057447-bc90a3dceb87"],
+ ["Skate street","Esporte",299.90,369.90,"photo-1520045892732-304bc3ac5d8e"],
+ ["Tapete de yoga","Esporte",99.90,129.90,"photo-1544367567-0f2fcb009e0b"],
+ ["Bola de futebol","Esporte",119.90,159.90,"photo-1614632537423-1e6c2e7e0b2f"],
+ ["Óculos de natação","Esporte",79.90,109.90,"photo-1530549387789-4c1017266635"],
+ ["Panela elétrica","Casa",299.90,369.90,"photo-1585515320310-259814833e62"],
+ ["Air fryer digital","Casa",599.90,699.90,"photo-1626082927389-6cd097cdc6ec"],
+ ["Purificador de água","Casa",449.90,529.90,"photo-1523362628745-0c100150b504"],
+ ["Drone compacto","Eletrônicos",1899.90,2199.90,"photo-1473968512647-3e447244af8f"],
+ ["Console portátil","Eletrônicos",1599.90,1799.90,"photo-1606144042614-b2417e99c4e3"],
+ ["Projetor compacto","Eletrônicos",899.90,1099.90,"photo-1517604931442-7e0c8ed2963c"],
+ ["Anel minimalista","Acessórios",249.90,329.90,"photo-1605100804763-247f67b3557e"],
+ ["Relógio clássico","Acessórios",699.90,849.90,"photo-1524592094714-0f0654e20314"],
+ ["Kit de ferramentas","Casa",179.90,229.90,"photo-1581147036324-c17ac41dfa6e"],
+ ["Manta decorativa","Casa",129.90,169.90,"photo-1600210492486-724fe5c67fb0"],
+ ["Kit de jardinagem","Casa",89.90,119.90,"photo-1416879595882-3373a0480b5b"]
+].map((p,i)=>({id:i+1,name:p[0],category:p[1],price:p[2],old:p[3],photo:p[4]}));
+
+let user="", admin=false, page="home", query="";
+let favorites=JSON.parse(localStorage.getItem("nexora-favs")||"[]");
+let cart=JSON.parse(localStorage.getItem("nexora-cart")||"[]");
+let orders=JSON.parse(localStorage.getItem("nexora-orders")||"[]");
+
+const navItems=[["home","Início"],["products","Produtos"],["favorites","♡ Favoritos"],["cart","🛒 Carrinho"],["orders","Pedidos"],["coupons","Cupons"],["messages","Mensagens"],["bonus","Bônus"],["admin","Administração"]];
+const money=n=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const img=p=>`https://images.unsplash.com/${p.photo}?auto=format&fit=crop&w=700&q=80`;
+function save(){localStorage.setItem("nexora-favs",JSON.stringify(favorites));localStorage.setItem("nexora-cart",JSON.stringify(cart));localStorage.setItem("nexora-orders",JSON.stringify(orders))}
+function toast(s){let t=document.querySelector("#toast");t.textContent=s;t.classList.remove("hidden");setTimeout(()=>t.classList.add("hidden"),2200)}
+document.querySelector("#loginForm").onsubmit=e=>{
+  e.preventDefault();user=document.querySelector("#email").value;
+  admin=user.toLowerCase()==="dona@nexora.com"&&document.querySelector("#password").value==="Nexora2026!";
+  document.querySelector("#who").textContent=admin?"Administradora":user;
+  document.querySelector("#login").classList.add("hidden");document.querySelector("#app").classList.remove("hidden");render();
+};
+document.querySelector("#logout").onclick=()=>{document.querySelector("#app").classList.add("hidden");document.querySelector("#login").classList.remove("hidden")};
+document.querySelector("#search").oninput=e=>{query=e.target.value.toLowerCase();render()};
+function card(p){
+ return `<article class="card"><button class="heart ${favorites.includes(p.id)?"on":""}" onclick="fav(${p.id})">${favorites.includes(p.id)?"♥":"♡"}</button>
+ <img src="${img(p)}" alt="${p.name}" loading="lazy" onerror="this.src='https://placehold.co/600x450/29313d/ffffff?text=${encodeURIComponent(p.name)}'">
+ <div class="card-body"><h3>${p.name}</h3><div class="price">${money(p.price)}<span class="old">${money(p.old)}</span></div>
+ <div class="tag">${p.category} · oferta</div><div class="card-actions"><button class="primary" onclick="buy(${p.id})">Comprar</button><button class="secondary" onclick="addCart(${p.id})">＋ Carrinho</button></div></div></article>`;
+}
+function fav(id){favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];save();render()}
+function addCart(id){cart.push(id);save();toast("Produto adicionado ao carrinho")}
+function buy(id){cart.push(id);save();page="cart";render()}
+function render(){
+ document.querySelector("#nav").innerHTML=navItems.filter(x=>x[0]!=="admin"||admin).map(x=>`<button class="${page===x[0]?"active":""}" onclick="page='${x[0]}';render()">${x[1]}${x[0]==="cart"&&cart.length?` (${cart.length})`:""}</button>`).join("");
+ const main=document.querySelector("#main");let list=products.filter(p=>p.name.toLowerCase().includes(query)||p.category.toLowerCase().includes(query));
+ if(page==="home")main.innerHTML=`<section class="hero"><div><h1>Seu próximo favorito está aqui.</h1><p>Novidades, ofertas e escolhas especiais para você.</p></div><span class="badge">OFERTAS DA SEMANA · até 30% OFF</span></section>
+ <div class="ticker"><span>✦ LANÇAMENTOS NEXORA &nbsp; · &nbsp; FRETE GRÁTIS em compras selecionadas &nbsp; · &nbsp; CUPOM NEXORA10 &nbsp; · &nbsp; ✦ LANÇAMENTOS NEXORA &nbsp; · &nbsp; FRETE GRÁTIS em compras selecionadas &nbsp; · &nbsp; CUPOM NEXORA10</span></div>
+ <div class="section-title"><h2>Ofertas em destaque</h2><span class="muted">Seleção especial</span></div><div class="grid">${list.slice(0,8).map(card).join("")}</div>
+ <div class="section-title"><h2>Marcas em destaque</h2></div><div class="content-box">NEXORA Audio　·　Urban Move　·　Casa Viva　·　TechLab　·　Essenza</div>
+ <div class="section-title"><h2>Mais produtos para descobrir</h2></div><div class="grid">${list.slice(8,16).map(card).join("")}</div>`;
+ else if(page==="products")main.innerHTML=`<div class="section-title"><h2>Todos os produtos</h2><span class="muted">${list.length} itens</span></div><div class="grid">${list.map(card).join("")||'<div class="empty">Nenhum produto encontrado.</div>'}</div>`;
+ else if(page==="favorites"){let a=products.filter(p=>favorites.includes(p.id));main.innerHTML=`<h2>Seus favoritos</h2><div class="grid">${a.map(card).join("")||'<div class="empty">Você ainda não favoritou produtos.</div>'}</div>`}
+ else if(page==="cart"){let a=cart.map(id=>products.find(p=>p.id===id)).filter(Boolean),sum=a.reduce((s,p)=>s+p.price,0);main.innerHTML=`<h2>Seu carrinho</h2><div class="content-box">${a.map((p,i)=>`<div class="row"><span>${p.name}</span><span>${money(p.price)} <button class="danger" onclick="cart.splice(${i},1);save();render()">Remover</button></span></div>`).join("")||'<div class="empty">Seu carrinho está vazio.</div>'}<div class="row"><b>Total</b><b>${money(sum)}</b></div><button class="primary" onclick="checkout()">Finalizar pedido</button></div>`}
+ else if(page==="orders")main.innerHTML=`<h2>Meus pedidos</h2><div class="content-box">${orders.map(o=>`<div class="row"><span>Pedido #${o.id} · ${o.date}</span><b>${money(o.total)} · ${o.status}</b></div>`).join("")||'<div class="empty">Seus pedidos aparecerão aqui.</div>'}</div>`;
+ else if(page==="coupons")main.innerHTML=`<h2>Cupons</h2><div class="content-box"><div class="row"><span>Desconto de boas-vindas</span><b>NEXORA10 · 10% OFF</b></div><div class="row"><span>Oferta especial</span><b>BEMVINDO · 5% OFF</b></div><p class="muted">Cupons demonstrativos. A aplicação do desconto precisa ser configurada no checkout.</p></div>`;
+ else if(page==="messages")main.innerHTML=`<h2>Mensagens</h2><div class="content-box"><p>Bem-vindo à NEXORA! Confira as ofertas e novidades da semana.</p><button class="secondary" onclick="toast('Não há novas mensagens')">Marcar como lida</button></div>`;
+ else if(page==="bonus")main.innerHTML=`<h2>Programa de bônus</h2><div class="content-box"><h3>✨ 120 pontos</h3><p class="muted">Acumule pontos em suas compras e acompanhe seus bônus por aqui.</p></div>`;
+ else if(page==="admin"&&admin)main.innerHTML=`<h2>Painel da administradora</h2><div class="content-box"><p class="admin-note">Área demonstrativa. A restrição abaixo é apenas visual; não protege dados sem um servidor.</p><div class="row"><span>Produtos cadastrados</span><b>${products.length}</b></div><div class="row"><span>Pedidos registrados neste navegador</span><b>${orders.length}</b></div><div class="row"><span>Personalizar anúncio da loja</span><input id="announcement" placeholder="Digite um anúncio"></div><button class="primary" onclick="toast('No protótipo, alterações não são publicadas para outros clientes')">Salvar configuração</button><h3 style="margin-top:25px">Produtos</h3>${products.slice(0,6).map(p=>`<div class="row"><span>${p.name}</span><span>${money(p.price)}</span></div>`).join("")}</div>`;
+ else {page="home";render()}
+}
+function checkout(){
+ if(!cart.length)return toast("Adicione algum produto primeiro");
+ let total=cart.reduce((s,id)=>s+products.find(p=>p.id===id).price,0);
+ orders.unshift({id:Date.now().toString().slice(-6),date:new Date().toLocaleDateString("pt-BR"),total,status:"Recebido"});
+ cart=[];save();page="orders";render();toast("Pedido realizado no protótipo!");
+}
+</script>
+</body>
+</html>
+
